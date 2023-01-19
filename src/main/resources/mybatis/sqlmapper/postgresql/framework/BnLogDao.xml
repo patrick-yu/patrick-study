@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mframework.common.dao.BnLogDao">
+
+	<insert id="insertLoginLogs">
+		/** LogDao.insertLoginLogs */
+		insert into logt_login_log (
+			 log_id
+			,system_id
+			,log_dt
+			,mber_id
+			,login_id
+			,mber_nm
+			,mber_type
+			,gender
+			,age
+			,mber_ip
+			,position_nm
+			,dept_nm
+			,pstinst_nm
+		) values
+		<foreach item="item" collection="logs" separator=",">
+			(
+				 #{item.logId}
+				,#{item.systemId}
+				,#{item.logDt}
+				,#{item.mberId}
+				,#{item.loginId}
+				,#{item.mberNm}
+				,#{item.mberType}
+				,#{item.gender}
+				,#{item.age}
+				,#{item.mberIp}
+				,#{item.positionNm}
+				,#{item.deptNm}
+				,#{item.pstinstNm}
+			)
+		</foreach>
+	</insert>
+
+	<insert id="insertAccessLogs">
+		/** LogDao.insertAccessLogs */
+		insert into logt_access_log (
+			 log_id
+			,system_id
+			,log_dt
+			,url
+			,mber_id
+			,login_id
+			,mber_nm
+			,mber_type
+			,gender
+			,age
+			,mber_ip
+			,position_nm
+			,dept_nm
+			,pstinst_nm
+		) values
+		<foreach item="item" collection="logs" separator=",">
+			(
+				 #{item.logId}
+				,#{item.systemId}
+				,#{item.logDt}
+				,#{item.url}
+				,#{item.mberId}
+				,#{item.loginId}
+				,#{item.mberNm}
+				,#{item.mberType}
+				,#{item.gender}
+				,#{item.age}
+				,#{item.mberIp}
+				,#{item.positionNm}
+				,#{item.deptNm}
+				,#{item.pstinstNm}
+			)
+		</foreach>
+	</insert>
+
+	<insert id="insertErrorLogs">
+		/** LogDao.insertErrorLogs */
+		insert into logt_error_log (
+			 log_id
+			,system_id
+			,log_dt
+			,error_code
+			,error_msg
+			,url
+			,mber_id
+			,login_id
+			,mber_nm
+			,mber_type
+			,gender
+			,age
+			,mber_ip
+			,position_nm
+			,dept_nm
+			,pstinst_nm
+		) values
+		<foreach item="item" collection="logs" separator=",">
+			(
+				 #{item.logId}
+				,#{item.systemId}
+				,#{item.logDt}
+				,#{item.errorCode}
+				,#{item.errorMsg}
+				,#{item.url}
+				,#{item.mberId}
+				,#{item.loginId}
+				,#{item.mberNm}
+				,#{item.mberType}
+				,#{item.gender}
+				,#{item.age}
+				,#{item.mberIp}
+				,#{item.positionNm}
+				,#{item.deptNm}
+				,#{item.pstinstNm}
+			)
+		</foreach>
+	</insert>
+
+	<insert id="insertBatchLogs">
+		/** LogDao.insertBatchLogs */
+		insert into logt_batch_log (
+			 log_id
+			,system_id
+			,batch_name
+			,batch_method
+			,begin_dt
+			,elapsed_time
+			,batch_st
+			,result_cn
+			,error_code
+			,error_msg
+		) values
+		<foreach item="item" collection="logs" separator=",">
+			(
+				 #{item.logId}
+				,#{item.systemId}
+				,#{item.batchName}
+				,#{item.batchMethod}
+				,#{item.beginDt}
+				,#{item.elapsedTime}
+				,#{item.batchSt}
+				,#{item.resultCn}
+				,#{item.errorCode}
+				,#{item.errorMsg}
+			)
+		</foreach>
+	</insert>
+
+	<insert id="insertElapsedTimeLog">
+		/** LogDao.insertElapsedTimeLog */
+		insert into logt_elapsed_time_log (
+			 log_id
+			,log_dt
+			,url
+			,elapsed_time
+			,system_id
+		) values (
+			 #{logId}
+			,#{logDt}
+			,#{url}
+			,#{elapsedTime}
+			,#{systemId}
+		)
+	</insert>
+
+	<delete id="deleteElapsedTimeLog">
+	<![CDATA[
+		/** LogDao.deleteElapsedTimeLog */
+		delete from
+			logt_elapsed_time_log
+		where
+			log_dt <= #{removeTime}
+	]]>
+	</delete>
+
+	<select id="selectDayMberLog" resultType="mframework.common.vo.LogtDayMberLog">
+		/** LogDao.selectDayMberLog */
+		select
+			 system_id
+			,ymd
+			,mber_id
+		from
+			logt_day_mber_log
+		where
+			system_id = #{systemId}
+			and ymd = #{ymd}
+			and mber_id = #{mberId}
+	</select>
+
+	<delete id="deleteDayMberLog">
+	<![CDATA[
+		/** LogDao.deleteDayMberLog */
+		delete from
+			logt_day_mber_log
+		where
+			ymd <= #{removeYmd}
+	]]>
+	</delete>
+
+	<insert id="insertDayMberLog">
+		/** LogDao.insertDayMberLog */
+		insert into logt_day_mber_log (
+			 system_id
+			,ymd
+			,mber_id
+		) values (
+			 #{systemId}
+			,#{ymd}
+			,#{mberId}
+		)
+	</insert>
+</mapper>

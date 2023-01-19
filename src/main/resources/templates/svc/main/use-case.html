@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html layout:decorate="~{/layout/layout-login}">
+<head>
+<meta charset="UTF-8">
+<title>Use case</title>
+
+<style>
+	table td, th {
+		border: 1px solid black;
+	}
+	table th {
+		background-color: lightgray;
+	}
+</style>
+
+<script th:inline="javascript">
+$(function(){
+
+});
+</script>
+</head>
+<body>
+
+<th:block layout:fragment="content">
+
+	<div class="card rounded-0 rounded-bottom">
+		<div class="card-body">
+			<h1>Use case</h1>
+		</div>
+	</div>
+
+	<!-- Loop -->
+	<div class="card card-body">
+		<div class="card-title">Loop</div>
+		<table class="col-4">
+			<thead>
+				<tr>
+					<th>코드</th>
+					<th>코드명</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="code : ${codeList}">
+					<td th:text="${code.code}">코드</td>
+					<td th:text="${code.codeNm}">코드명</td>
+				</tr>
+			</tbody>
+		</table>
+		<pre class="line-numbers"><code class="language-html">
+&lt;table class="col-4">
+	&lt;thead>
+		&lt;tr>
+			&lt;th>코드&lt;/th>
+			&lt;th>코드명&lt;/th>
+		&lt;/tr>
+	&lt;/thead>
+	&lt;tbody>
+		&lt;tr th:each="code : ${codeList}">
+			&lt;td th:text="${code.code}">코드&lt;/td>
+			&lt;td th:text="${code.codeNm}">코드명&lt;/td>
+		&lt;/tr>
+	&lt;/tbody>
+&lt;/table>
+		</code></pre>
+	</div>
+
+	<!-- Input -->
+	<div class="card card-body">
+		<div class="card-title">Input</div>
+		<div class="input-group">
+			<input type="text" name="userNm" th:value="${worker.mbrNm}"/>
+		</div>
+		<pre class="line-numbers"><code class="language-html">
+&lt;div class="input-group">
+	&lt;input type="text" name="userNm" th:value="${worker.mbrNm}"/>
+&lt;/div>
+		</code></pre>
+	</div>
+
+	<!-- Select box -->
+	<div class="card card-body">
+		<div class="card-title">Select box</div>
+		<div class="input-group">
+			<div class="col-auto">
+				<select name="code" class="form-select col-auto">
+					<option th:each="code : ${codeList}"
+						th:value="${code.code}"
+						th:text="${code.codeNm}">코드명</option>
+				</select>
+			</div>
+		</div>
+		<pre class="line-numbers"><code class="language-html">
+&lt;div class="input-group">
+	&lt;div class="col-auto">
+		&lt;select name="code" class="form-select col-auto">
+			&lt;option th:each="code : ${codeList}"
+				th:value="${code.code}"
+				th:text="${code.codeNm}">코드명&lt;/option>
+		&lt;/select>
+	&lt;/div>
+&lt;/div>
+		</code></pre>
+	</div>
+
+	<!-- CSRF -->
+	<div class="card card-body">
+		<div class="card-title">CSRF</div>
+		<form th:action="@{/svc/main/save.do}" method="post">
+
+		</form>
+		<pre class="line-numbers"><code class="language-html">
+&lt;form th:action="@{/svc/main/save.do}" method="post">
+	&lt;!-- method가 "GET"이 아니면, 자동으로 아래 코드가 생성된다. -->
+	&lt;!-- &lt;input type="hidden" name="_csrf" value="7c775455-ce50-41d8-a752-f373d2b5a69b"/> -->
+&lt;/form>
+&lt;!-- 직접 CSRF input을 직접 작성할 때는 아래와 같이 한다 -->
+&lt;input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+		</code></pre>
+	</div>
+
+	<!-- 데이터만 출력 -->
+	<div class="card card-body">
+		<div class="card-title">데이터만 출력</div>
+		<p>
+			로그인ID: [[${worker.lgnId}]],
+			이름: [[${worker.mbrNm}]]
+		</p>
+		<pre class="line-numbers"><code class="language-html">
+&lt;p>
+	로그인ID: &#91;[${worker.lgnId}]],
+	이름: &#91;[${worker.mbrNm}]]
+&lt;/p>
+		</code></pre>
+	</div>
+
+	<!-- javascript -->
+	<div class="card card-body">
+		<div class="card-title">Javascript</div>
+		<pre class="line-numbers"><code class="language-javascript">
+&lt;script th:inline="javascript">
+$(function(){
+	// code
+});
+&lt;/script>
+		</code></pre>
+	</div>
+
+</th:block>
+
+</body>
+</html>

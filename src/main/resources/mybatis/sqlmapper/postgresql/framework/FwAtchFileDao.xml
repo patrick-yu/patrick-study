@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mframework.common.dao.FwAtchFileDao">
+
+	<sql id="cmmtAttachment_cols">
+		 atch_file_id       as attachment_id
+		,atch_file_group_id as attachment_group_id
+		,file_nm            as file_nm
+		,cn_type            as content_type
+		,file_sz            as file_size
+		,file_path_nm       as saved_file_path
+		,dwnld_cnt          as download_cnt
+		,case when del_yn = 'Y' then true
+		 else false end     as file_deleted
+		,rgtr_id            as creator_id
+		,reg_dt             as created_dt
+		,mdfr_id            as updater_id
+		,mdfcn_dt           as updated_dt
+	</sql>
+
+	<insert id="insertList">
+		/** BnAttachmentDao.insertList */
+		insert into cmpt_atch_file (
+			 atch_file_id
+			,atch_file_group_id
+			,file_nm
+			,cn_type
+			,file_sz
+			,file_path_nm
+			,dwnld_cnt
+			,del_yn
+			,rgtr_id
+			,reg_dt
+			,mdfr_id
+			,mdfcn_dt
+		) values
+		<foreach item="item" index="index" collection="list" separator=",">
+			(
+				#{item.atchFileId}
+				,#{item.atchFileGroupId}
+				,#{item.fileNm}
+				,#{item.cnType}
+				,#{item.fileSz}
+				,#{item.filePathNm}
+				,#{item.dwnldCnt}
+				,#{item.delYn}
+				,#{item.rgtrId}
+				,#{item.regDt}
+				,#{item.mdfrId}
+				,#{item.mdfcnDt}
+			)
+		</foreach>
+	</insert>
+
+	<select id="select" resultType="mframework.common.vo.CmptAtchFile">
+		/** BnAttachmentDao.select */
+		select
+			<include refid="cmmtAttachment_cols"/>
+		from
+			cmpt_atch_file
+		where
+			atch_file_id = #{atchFileId}
+	</select>
+
+	<update id="increaseDownloadCnt">
+		/** BnAttachmentDao.increaseDownloadCnt */
+		update cmpt_atch_file set
+			dwnld_cnt = dwnld_cnt + 1
+		where
+			atch_file_id = #{atchFileId}
+	</update>
+
+	<select id="selectList" resultType="mframework.common.vo.CmptAtchFile">
+		/** BnAttachmentDao.selectList */
+		select
+			<include refid="cmmtAttachment_cols" />
+		from
+			cmpt_atch_file
+		where
+			atch_file_group_id = #{atchFileGroupId}
+	</select>
+
+	<select id="selectList_notDeleted" resultType="mframework.common.vo.CmptAtchFile">
+		/** BnAttachmentDao.selectList_notDeleted */
+		select
+			<include refid="cmmtAttachment_cols" />
+		from
+			cmpt_atch_file
+		where
+			atch_file_group_id = #{atchFileGroupId}
+			and del_yn = 'N'
+	</select>
+
+	<delete id="delete">
+		/** BnAttachmentDao.delete */
+		delete from
+			cmpt_atch_file
+		where
+			atch_file_id = #{atchFileId}
+	</delete>
+
+	<select id="existsGroupFiles" resultType="Boolean">
+		/** BnAttachmentDao.existsGroupFiles */
+		select
+			exists (
+				select 1
+				from cmpt_atch_file
+				where atch_file_group_id = #{atchFileGroupId}
+			)
+	</select>
+
+	<update id="updateRemoved_group">
+		/** BnAttachmentDao.updateRemoved_group */
+		update cmpt_atch_file set
+			del_yn = 'Y'
+		where
+			atch_file_group_id = #{atchFileGroupId}
+	</update>
+
+	<update id="updateRemoved">
+		/** BnAttachmentDao.updateRemoved */
+		update cmpt_atch_file set
+			del_yn = 'Y'
+		where
+			atch_file_id = #{atchFileId}
+	</update>
+
+	<select id="selectGroupFileSize" resultType="Long">
+		/** BnAttachmentDao.selectGroupFileSize */
+		select
+			coalesce(sum(file_sz),0) as size
+		from
+			cmpt_atch_file
+		where
+			atch_file_group_id = #{atchFileGroupId}
+			and del_yn = 'N'
+	</select>
+</mapper>

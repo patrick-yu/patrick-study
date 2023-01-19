@@ -1,1 +1,5 @@
-# Study 용
+# patrick-study
+학습
+
+# 실행방법
+http://localhost

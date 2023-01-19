@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html layout:decorate="~{/layout/layout-login}">
+<head>
+<meta charset="UTF-8">
+<title>기본 사용법</title>
+
+<script th:src="@{/vue/base-card.js}"></script>
+<script>
+$(function(){
+	var app = Vue.createApp({
+		components: {
+			'base-card': BaseCard
+		},
+		data() {
+			return {
+				cardMessage: "Hello~ Youngmin. This is for you"
+			}
+		},
+		methods: {
+			hello() {
+				alert("hi");
+			}
+		}
+	});
+
+	app.mount("#app");
+});
+</script>
+
+</head>
+<body>
+
+<th:block layout:fragment="content">
+	<div class="card rounded-0 rounded-bottom">
+		<div class="card-body">
+			<h1>기본 사용법</h1>
+		</div>
+	</div>
+
+	<h1>Hello Vue3</h1>
+	<div id="app">
+		{{cardMessage}}
+		<base-card title="Custom Card1" content="Hello~ youngmin. This is for you" button-text="확인" @click="hello"></base-card>
+	</div>
+
+	<div class="card card-body">
+		<div class="card-title">HTML</div>
+		<pre class="line-numbers"><code class="language-html">
+&lt;script th:src="@{/vue/base-card.js}">&lt;/script>
+&lt;script>
+$(function(){
+	var app = Vue.createApp({
+		components: {
+			'base-card': BaseCard
+		},
+		data() {
+			return {
+				cardMessage: "Hello~ Youngmin. This is for you"
+			}
+		},
+		methods: {
+			hello() {
+				alert("hi");
+			}
+		}
+	});
+
+	app.mount("#app");
+});
+&lt;/script>
+
+&lt;div id="app">
+	{{cardMessage}}
+	&lt;base-card
+		title="Custom Card1"
+		content="Hello~ youngmin. This is for you"
+		button-text="확인"
+		@click="hello">
+	&lt;/base-card>
+&lt;/div>
+		</code></pre>
+		<pre class="desc"><code class="language-text">
+line 2:
+	base-card.js 포함
+line 6~8:
+	base-card.js에서 정의된 BaseCard를 component로 등록
+	(line 20)과 같이 app.component()로 등록할 수도 있음.
+line 21:
+	app.mount()로 앱을 특정 위치에 실행한다.
+line 27:
+	component로 등록한 base-card를 tag로 사용한다.
+		</code></pre>
+	</div>
+
+	<div class="card card-body">
+		<div class="card-title">base-card.js</div>
+		<pre class="line-numbers"><code class="language-javascript">
+const BaseCard = {
+    props:{
+        title: String,
+        content: {
+            type: String,
+            default: "",
+            description: "card content"
+        },
+        buttonText: {
+            type: String,
+            default: "",
+            description: "button text"
+        }
+    },
+    template:`
+    &lt;div class="card" style="width: 18rem;margin: auto;">
+        &lt;img src="https://i1.daumcdn.net/thumb/C58x58/?fname=https://img1.daumcdn.net/thumb/R750x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FTDpcV%2FbtrwqNbZy5N%2FhrBS6KeeRGRiBDKHkWWUHk%2Fimg.jpg" class="card-img-top" alt="...">
+        &lt;div class="card-body">
+            &lt;h5 class="card-title">{{ title }}&lt;/h5>
+            &lt;p class="card-text">{{ content }}&lt;/p>
+            &lt;button class="btn btn-primary" @click="handleClick">{{ buttonText }}&lt;/button>
+        &lt;/div>
+    &lt;/div>
+    `
+}
+		</code></pre>
+		<pre class="desc"><code class="language-text">
+line 3:
+	props에 BaseCard의 properties를 정의한다.
+	buttonText property는 실제 사용할 때, button-text로 사용해야 한다.
+line 16:
+	Component의 모양(html)을 정의한다.
+		</code></pre>
+	</div>
+
+	<div class="card card-body">
+		<div class="card-title">Template Refs</div>
+		<pre class="line-numbers"><code class="language-javascript">
+const BaseCard = {
+    props:{
+		name: {
+			type: String,
+			default: 'loginId',
+			description: "Login ID"
+		}
+	},
+	mounted() {
+		this.$refs.input.focus();
+	}
+    template:`
+		&lt;input :name="name" ref="input">
+    `
+}
+		</code></pre>
+		<pre class="desc"><code class="language-text">
+line 10:
+	Template tag에 attribute ref를 설정한다.
+	Attribute에는 {{...}}를 사용할 수 없으며, :name, :id와 같이 ":"를 attribute name앞에 붙이고, props를 ""로 묶어 사용한다.
+line 7:
+	this.$refs.{ref-name}으로 접근할 수 있다.
+		</code></pre>
+	</div>
+</th:block>
+
+</body>
+</html>

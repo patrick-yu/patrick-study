@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html layout:decorate="~{/layout/layout-login}">
+<head>
+<meta charset="UTF-8">
+<title>day.js</title>
+
+<style>
+	table td, th {
+		border: 1px solid black;
+	}
+	table th {
+		background-color: lightgray;
+	}
+</style>
+
+<script th:inline="javascript">
+$(function(){
+	$component.get({
+		url: "/svc/main/date.do",
+		success: function(data, status, xhr) {
+			console.log("data:", data);
+			const day = dayjs(data);
+			const now = day.format("YYYY-MM-DD HH:mm:ss.SSS");
+			$("#span-now").text(now);
+			console.log("now:", now);
+		}
+	});
+});
+</script>
+</head>
+<body>
+
+<th:block layout:fragment="content">
+
+	<div class="card rounded-0 rounded-bottom">
+		<div class="card-body">
+			<h1>day.js</h1>
+			<p>가벼운 javascript 날짜 라이브러리</p>
+			<p>공식 사이트: <a href="https://day.js.org" target="_blank">https://day.js.org</a></p>
+		</div>
+	</div>
+
+	<!-- Loop -->
+	<div class="card card-body">
+		<div class="card-title">오늘날짜: <span id="span-now" style="color: blue;"></span></div>
+		<p>Date format: <a href="https://day.js.org/docs/en/parse/string-format" target="_blank">https://day.js.org/docs/en/parse/string-format</a></p>
+		<pre class="line-numbers"><code class="language-javascript">
+&lt;script th:inline="javascript">
+$(function(){
+	/*
+	 * 서버에서 현재 Date를 리턴한다.
+	 */
+	$component.get({
+		url: "/svc/main/date.do",
+		success: function(data, status, xhr) {
+			console.log("data:", data); // 출력: data: 1667051235748 (java에서 Date를 리턴하면, timestamp로 내려온다)
+			const day = dayjs(data);
+			const now = day.format("YYYY-MM-DD HH:mm:ss.SSS");
+			$("#span-now").text(now);
+			console.log("now:", now); // 출력: now: 2022-10-29 22:47:15.748
+		}
+	});
+});
+&lt;/script>
+		</code></pre>
+	</div>
+
+
+</th:block>
+
+</body>
+</html>

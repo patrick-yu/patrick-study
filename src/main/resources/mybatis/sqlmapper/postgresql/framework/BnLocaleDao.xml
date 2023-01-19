@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mframework.common.dao.BnLocaleDao">
+
+	<select id="selectList" resultType="mframework.common.vo.BnLocale">
+		/** BnLocaleDao.selectList */
+		select
+			 locale
+			,locale_nm
+		from cmpt_locale
+		order by
+			sort_sn
+	</select>
+</mapper>

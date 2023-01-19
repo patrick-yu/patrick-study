@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html layout:decorate="~{/layout/layout-login}">
+<head>
+<meta charset="UTF-8">
+<title>기본 사용법</title>
+
+<style>
+div.img-upload {
+    display: flex;
+    column-gap: 8px;
+}
+div.img-upload .output {
+    position: relative;
+    width: 102px;
+    height: 102px;
+    border: 1px solid #b2b2b2;
+    background-color: #e5e5e5;
+    background: url(/images/main_bg_img.jpg) no-repeat center;
+    background-size: cover;
+}
+div.img-upload .output img {
+    width: 100%;
+    height: 100%;
+}
+div.img-upload .output .photo-del {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 16px;
+    height: 16px;
+    background: transparent url(/images/ico_16_photo_close_n.png) no-repeat left top;
+    background-size: cover;
+    border: none;
+    font-size: 0;
+    line-height: 0;
+}
+</style>
+
+<script th:src="@{/vue/select-image.js}"></script>
+<script type="module">
+$(function(){
+	Vue.createApp({
+	  components: {
+	    'select-image': SelectImage
+	  },
+	  data() {
+	    return {
+
+	    }
+	  }
+	}).mount('#app')
+});
+</script>
+
+</head>
+<body>
+<th:block layout:fragment="content">
+	<div id="app">
+		<div>
+		<select-image name="mainimage" button-text="이미지 선택" />
+		</div>
+		<div>
+		<select-image name="myimage" button-text="이미지 선택" />
+		</div>
+	</div>
+
+	<div class="card card-body">
+		<div class="card-title">Javascript</div>
+		<pre class="line-numbers"><code class="language-javascript">
+const SelectImage = {
+	created() {
+		console.log("created");
+	},
+	mounted() {
+		console.log("mounted");
+	},
+    props: {
+        buttonText: {
+			type: String,
+			default: "이미지 선택",
+			description: "이미지 선택 버튼 이름"
+		},
+		name: {
+			type: String,
+			default: 'file',
+			description: "File input name"
+		}
+    },
+	methods: {
+		selectImage() {
+			const $root = $(this.$refs.root);
+			var $input = $root.find("input[type=file]");
+			$input.click();
+		},
+		deleteImage() {
+			console.log("deleteImage");
+			const $root = $(this.$refs.root);
+			const $input = $root.find("input[type=file]");
+			$input.val("");
+			$root.find(".output img").remove();
+		},
+		showImage() {
+			console.log("showImage");
+			const $root = $(this.$refs.root);
+			const $input = $root.find("input[type=file]");
+			const $output = $root.find("div.output");
+			let $img = $output.find("img");
+			if ($input[0].files && $input[0].files[0]) {
+				console.log("image1")
+				if ($img.length > 0) {
+					console.log("image1 remove");
+					$img.remove();
+				}
+			    $img = $("<img>");
+			    $output.append($img);
+
+				var reader = new FileReader();
+				reader.onload = function(e) {
+				    $img.attr("src", e.target.result);
+				};
+				reader.readAsDataURL($input[0].files[0]);
+			}
+     	},
+	},
+    template:`
+		&lt;div class="img-upload" ref="root">
+		    &lt;div class="img-btn">
+		        &lt;button type="button" class="btn btn-primary" @click="selectImage">{{buttonText}}&lt;/button>
+		        &lt;input type="file" :name="name" @change="showImage" accept=".gif, .jpg, .png" style="display: none;">
+		    &lt;/div>
+		    &lt;div class="output">
+		        &lt;button type="button" class="photo-del" id="btn-del-img-main-photo" @click="deleteImage">삭제&lt;/button>
+		    &lt;/div>
+		&lt;/div>
+    `
+}
+		</code></pre>
+		<pre class="desc"><code class="language-text">
+
+		</code></pre>
+	</div>
+
+	<div class="card card-body">
+		<div class="card-title">HTML</div>
+		<pre class="line-numbers"><code class="language-html">
+&lt;script th:src="@{/vue/select-image.js}">&lt;/script>
+&lt;script type="module">
+$(function(){
+	Vue.createApp({
+	  components: {
+	    'select-image': SelectImage
+	  },
+	  data() {
+	    return {
+
+	    }
+	  }
+	}).mount('#app')
+});
+&lt;/script>
+
+&lt;/head>
+&lt;body>
+&lt;th:block layout:fragment="content">
+	&lt;div id="app">
+		&lt;div>
+			&lt;select-image name="mainimage" button-text="이미지 선택" />
+		&lt;/div>
+		&lt;div>
+			&lt;select-image name="myimage" button-text="이미지 선택" />
+		&lt;/div>
+	&lt;/div>
+&lt;/th:block>
+		</code></pre>
+		<pre class="desc"><code class="language-text">
+
+		</code></pre>
+	</div>
+</th:block>
+
+</body>
+</html>

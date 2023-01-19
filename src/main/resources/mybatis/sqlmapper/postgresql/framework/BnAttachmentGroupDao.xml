@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mframework.common.dao.BnAttachmentGroupDao">
+
+	<sql id="cmmtAttachmentGroup_cols">
+		 atch_file_group_id as attachment_group_id
+		,rgtr_id            as creator_id
+		,reg_dt             as created_dt
+		,mdfr_id            as updater_id
+		,mdfcn_dt           as updated_dt
+	</sql>
+
+	<select id="select" resultType="mframework.common.vo.CmptAtchFileGroup">
+		/** BnAttachmentGroupDao.select */
+		select
+			<include refid="cmmtAttachmentGroup_cols"/>
+		from
+			cmpt_atch_file_group
+		where
+			atch_file_group_id = #{attachmentGroupId}
+	</select>
+
+	<insert id="insert">
+		/** BnAttachmentGroupDao.insert */
+		insert into cmpt_atch_file_group (
+			atch_file_group_id
+			,rgtr_id
+			,reg_dt
+			,mdfr_id
+			,mdfcn_dt
+		) values (
+			#{attachmentGroupId}
+			,#{creatorId}
+			,#{createdDt}
+			,#{updaterId}
+			,#{updatedDt}
+		)
+	</insert>
+
+	<delete id="delete">
+		/** BnAttachmentGroupDao.delete */
+		delete from
+			cmpt_atch_file_group
+		where
+			atch_file_group_id = #{attachmentGroupId}
+	</delete>
+</mapper>

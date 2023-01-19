@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mframework.common.dao.BnMenuDao">
+
+	<!-- 사용중 -->
+	<sql id="cmmtMenu-Columns">
+		 ${alias}.sys_cd
+		,${alias}.menu_id
+		,${alias}.menu_nm
+		,${alias}.url_addr
+		,${alias}.npag_yn
+		,${alias}.up_menu_id
+		,${alias}.sort_sn
+		,${alias}.rmrk_cn
+	</sql>
+
+	<!-- 사용중 -->
+	<sql id="cmmtMenu-Columns-level">
+		 sys_cd
+		,menu_id
+		,menu_nm
+		,url_addr
+		,npag_yn
+		,up_menu_id
+		,sort_sn
+		,rmrk_cn
+	</sql>
+
+	<sql id="cmmtMenu-user-hierarchy">
+		WITH RECURSIVE cmpt_menu_by_authrt_cd
+		    AS (<!-- role id를 기준으로 하위 메뉴가 없는 메뉴(화면URL)들만 도출하여 역으로 Root 메뉴까지 목록화한다. -->
+				SELECT
+					<include refid="cmmtMenu-Columns"><property name="alias" value="cm"/></include>
+				  FROM cmpt_menu cm
+				 WHERE cm.sys_cd = #{sysCd}
+				   AND cm.menu_id in (
+						select a.menu_id
+						  from cmpt_menu a
+						  left join cmpt_menu b
+						    on a.sys_cd = b.sys_cd
+						       and a.menu_id = b.up_menu_id
+						 where a.sys_cd = #{sysCd}
+						   and a.menu_id in (
+										select 	menu_id
+										from 	cmpt_menu_authrt
+										where
+											sys_cd = #{sysCd}
+											and ${whereRole}
+										)
+						   and b.menu_id is null
+						)
+				 UNION ALL
+				SELECT
+					<include refid="cmmtMenu-Columns"><property name="alias" value="cm2"/></include>
+				  FROM cmpt_menu_by_authrt_cd cm1
+				  JOIN cmpt_menu cm2
+				    ON cm1.sys_cd = cm2.sys_cd
+				   AND cm2.menu_id = cm1.up_menu_id
+				 WHERE cm1.sys_cd = #{sysCd}
+		        )
+		     , cmpt_menu_hierarchy
+		    as (<!-- 앞서 도출된 메뉴 목록에 대해서 중복 제거 후 Hierarchy로 구조화한다. -->
+		        SELECT
+					<include refid="cmmtMenu-Columns"><property name="alias" value="cm"/></include>
+		              , 1 AS LEVEL
+		              , ARRAY['1'||LPAD(CAST(cm.sort_sn AS TEXT), 3, '0')] AS PATH
+		              , false AS CYCLE
+		          FROM (select distinct * from cmpt_menu_by_authrt_cd) cm
+		         WHERE cm.sys_cd = #{sysCd}
+		           AND cm.up_menu_id = 'ROOT'
+		         UNION ALL
+		        SELECT
+					<include refid="cmmtMenu-Columns"><property name="alias" value="cm2"/></include>
+		              , cm1.LEVEL + 1 AS LEVEL
+		              , cm1.PATH||CAST((cm1.LEVEL + 1) AS TEXT)||LPAD(CAST(cm2.sort_sn AS TEXT), 3, '0') AS PATH
+		              , CAST((cm1.LEVEL + 1) AS TEXT)||LPAD(CAST(cm2.sort_sn AS TEXT), 3, '0') = ANY(PATH) AS CYCLE
+		          FROM cmpt_menu_hierarchy cm1
+		          JOIN (select distinct * from cmpt_menu_by_authrt_cd) cm2
+		            ON cm1.sys_cd = cm2.sys_cd
+		           AND cm2.up_menu_id = cm1.menu_id
+		         WHERE cm1.sys_cd = #{sysCd}
+		           AND NOT CYCLE
+		       )
+	</sql>
+
+	<select id="selectList_authrtCd" resultType="mframework.common.vo.BnMenu">
+		/** CmmtMenuDao.selectList_mbrId */
+		<include refid="cmmtMenu-user-hierarchy">
+			<property name="whereRole" value="authrt_cd = #{authrtCd}" />
+		</include>
+		select
+			<include refid="cmmtMenu-Columns-level">
+				<property name="decLevel" value="1"/>
+			</include>
+		  FROM cmpt_menu_hierarchy
+		 ORDER BY PATH
+	</select>
+
+	<select id="selectList_mbrId" resultType="mframework.common.vo.BnMenu">
+		/** CmmtMenuDao.selectList_mbrId */
+		<include refid="cmmtMenu-user-hierarchy">
+			<property name="whereRole" value="authrt_cd in ( select authrt_cd from cmpt_mbr_authrt where mbr_id = #{mbrId} union select authrt_cd from cmpt_mngr_authrt where mbr_id = #{mbrId} )" />
+		</include>
+		select
+			<include refid="cmmtMenu-Columns-level">
+				<property name="decLevel" value="1"/>
+			</include>
+		  FROM cmpt_menu_hierarchy
+		 ORDER BY PATH
+	</select>
+
+</mapper>

@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<body>
+	<div th:fragment="headerFragment">
+		<script th:inline="javascript">
+		    $(function(){
+		        $("#btn-logout").click(function(){
+		            _logout();
+		        });
+
+		        $("#btnShowMenu").click(function(){
+		            $("#userMenu").toggle();
+		        });
+		    });
+		</script>
+
+		<div class="header header-fixed navbar mb-0 px-2">
+			<h1 class="me-auto">Study</h1>
+			<th:block sec:authorize="isAuthenticated()">
+				<div class="col-auto row">
+					<div class="col-auto">
+				    	<label th:text="${_currentUser.mbrNm}">아용자명</label>(<label th:text="${_currentUser.lgnId}">아이디</label>)
+					</div>
+					<div class="col-auto">
+				    	<button type="button" id="btn-logout" class="btn btn-primary btn-sm me-1"><i class="fa fa-power-off"></i> 로그아웃</button>
+					</div>
+				</div>
+			</th:block>
+		</div>
+	</div>
+</body>
+</html>

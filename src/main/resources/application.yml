@@ -1,0 +1,63 @@
+#################################
+# TOMCAT
+#################################
+server:
+   error: 
+      # 오류 응답에 exception의 내용을 포함할지 여부
+      include-exception: false 
+      # 오류 응답에 stacktrace 내용을 포함할 지 여부
+      include-stacktrace: never
+      whitelabel:
+         enabled: false  
+   compression:
+      # html, css 압축해서 출력
+      enabled: true
+
+spring:
+   #################################
+   # DBCP
+   #################################
+   main:
+      allow-bean-definition-overriding: true
+   
+   datasource:
+      hikari:
+         driver-class-name: "org.postgresql.Driver"
+         jdbc-url: "jdbc:postgresql://fw.thenet-global.com:5432/kto?currentSchema=bnet-cmp&serverTimezone=Asia/Seoul"
+         username: "thenet"
+         password: "thenet1!"
+
+         auto-commit: false
+         maximum-pool-size: 20
+         connection-timeout: 30000
+         idle-timeout: 600000
+         max-lifetime: 1800000
+         connection-test-query: "SELECT 1"
+
+   pid:
+      file: patric-study.pid
+#   lifecycle:
+#      timeout-per-shutdown-phase: 30s
+   devtools:
+      livereload:
+         enabled: true
+      
+   h2:
+      console:
+         enabled: true
+
+#   mvc:
+#      view:
+#         prefix: /WEB-INF/jsp/
+#         suffix: .jsp
+#      pathmatch:
+#         matching-strategy: ant_path_matcher
+         
+   servlet:
+      # 업로드 파일 최대 크기
+      multipart.max-file-size: 500MB
+      # 업로드 요청 데이터 크기
+      multipart.max-request-size: 500MB
+
+env:
+   system-id: 'STUDY'

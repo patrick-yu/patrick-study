@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html layout:decorate="~{/layout/layout-login}">
+<head>
+<meta charset="UTF-8">
+<title>기본 사용법</title>
+<script>
+$(function(){
+	// 이런 일이 ....
+});
+</script>
+</head>
+<body>
+
+<th:block layout:fragment="content">
+
+	<div class="card rounded-0 rounded-bottom">
+		<div class="card-body">
+			<h1>기본 사용법</h1>
+		</div>
+	</div>
+
+	<div class="card card-body">
+		<div class="card-title">Context path</div>
+		<pre class="line-numbers"><code class="language-html">
+&lt;script th:src="@{/vue/base-card.js}">&lt;/script>
+		</code></pre>
+		<pre class="desc"><code class="language-text">
+th:src="@{}"를 사용하면, context-path가 붙은 URL로 변환된다.
+		</code></pre>
+	</div>
+
+	<div class="card card-body">
+		<div class="card-title">Simple expressions</div>
+		<pre class="line-numbers"><code class="language-text"><script type="bnet">
+Variable Expressions: ${...}
+Selection Variable Expressions: *{...}
+Message Expressions: #{...}
+Link URL Expressions: @{...}
+Fragment Expressions: ~{...}
+		</script></code></pre>
+	</div>
+
+	<div class="card card-body">
+		<div class="card-title">Literals</div>
+		<pre class="line-numbers"><code class="language-text"><script type="bnet">
+Text literals: 'one text', 'Another one!',…
+Number literals: 0, 34, 3.0, 12.3,…
+Boolean literals: true, false
+Null literal: null
+Literal tokens: one, sometext, main,…
+		</script></code></pre>
+	</div>
+
+	<div class="card card-body">
+		<div class="card-title">Text operations</div>
+		<pre class="line-numbers"><code class="language-text"><script type="bnet">
+String concatenation: +
+Literal substitutions: |The name is ${name}|
+		</script></code></pre>
+	</div>
+
+	<div class="card card-body">
+		<div class="card-title">Arithmetic operations</div>
+		<pre class="line-numbers"><code class="language-text"><script type="bnet">
+Binary operators: +, -, *, /, %
+Minus sign (unary operator): -
+		</script></code></pre>
+	</div>
+
+	<div class="card card-body">
+		<div class="card-title">Boolean operations</div>
+		<pre class="line-numbers"><code class="language-text"><script type="bnet">
+Binary operators: and, or
+Boolean negation (unary operator): !, not
+		</script></code></pre>
+	</div>
+	<div class="card card-body">
+		<div class="card-title">Comparisons and equality</div>
+		<pre class="line-numbers"><code class="language-text">
+Comparators: >, &lt;, >=, &lt;= (gt, lt, ge, le)
+Equality operators: ==, != (eq, ne)
+		</code></pre>
+	</div>
+	<div class="card card-body">
+		<div class="card-title">Conditional operators</div>
+		<pre class="line-numbers"><code class="language-text">
+If-then: (if) ? (then)
+If-then-else: (if) ? (then) : (else)
+Default: (value) ?: (defaultvalue)
+		</code></pre>
+	</div>
+	<div class="card card-body">
+		<div class="card-title">Special tokens</div>
+		<pre class="line-numbers"><code class="language-text">
+No-Operation: _
+		</code></pre>
+	</div>
+
+	<div class="card card-body">
+		<div class="card-title">Loop</div>
+		<pre class="line-numbers"><code class="language-html">
+&lt;table class="tb_col">
+	&lt;tr>
+	&lt;th>seq&lt;/th>
+	&lt;th>name&lt;/th>
+	&lt;th>price&lt;/th>
+	&lt;th>quantity&lt;/th>
+	&lt;/tr>
+	&lt;tr th:each="product : ${productList}">
+		&lt;td th:text="${product.seq}">1&lt;/td>
+		&lt;td th:text="${product.name}">name&lt;/td>
+		&lt;td th:text="${product.price}">1000&lt;/td>
+		&lt;td th:text="${product.quantity}">1&lt;/td>
+	&lt;/tr>
+&lt;/table>
+		</code></pre>
+	</div>
+
+	<div class="card card-body">
+		<div class="card-title">다국어</div>
+		<div>
+			예시: <span style="color: red;" th:text="${#messages.msg('page.menu.add_below')}">다국어-메시지</span><br>
+			예시: <span style="color: red;" th:text="#{page.menu.add_below}">다국어-메시지</span>
+		</div>
+		<pre class="line-numbers"><code class="language-html">
+&lt;h1 style="color: red;" th:text="${#messages.msg('page.menu.add_below')}">&lt;/h1>
+또는
+&lt;span style="color: red;" th:text="#{page.menu.add_below}">다국어-메시지&lt;/span>
+		</code></pre>
+	</div>
+
+	<div class="card card-body">
+		<div class="card-title">CSRF</div>
+		<pre class="line-numbers"><code class="language-html">
+&lt;form action="/user/login" method="post">
+	&lt;input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+&lt;/form>
+		</code></pre>
+		<p th:text="'CSRF parameterName: ' + ${_csrf.parameterName}"></p>
+		<p th:text="'CSRF token: ' + ${_csrf.token}"></p>
+	</div>
+</th:block>
+
+</body>
+</html>
+

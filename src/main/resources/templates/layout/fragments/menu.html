@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+
+<th:block th:fragment="menuFragment">
+	<script type="text/javascript">
+		$(function(){
+			var url = location.href;
+			$("#main-menu-navigation ul.menu-content li a").each((idx, item) => {
+				var thisUrl = $(item).attr("href");
+				if ($.isBlank(thisUrl) || thisUrl.length < 10) {
+					return true;
+				}
+				if (url.indexOf(thisUrl) >= 0) {
+					$(item).parent("li").addClass("active");
+					$(item).parents("li.nav-item:first").addClass("open");
+				}
+			});
+
+			$("li.nav-item.has-sub ul li a").click((event) => {
+				event.stopPropagation();
+			});
+
+			$("li.nav-item.has-sub").click((event) => {
+				$("li.nav-item.has-sub").each((idx, item) => {
+					if (event.currentTarget == item) {
+						if ($(item).hasClass("open")) {
+							$(item).removeClass("open")
+						}
+						else {
+							$(item).addClass("open");
+						}
+					}
+					else {
+						//$(item).removeClass("open");
+					}
+				});
+			});
+		});
+	</script>
+	<div class="main-menu menu-static menu-light menu-shadow" style="width: 230px;">
+		<ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation" style="min-height: 500px;">
+			<li class="nav-item has-sub">
+				<a href="#"><i class="fa fa-server"></i><span class="menu-title">Vue.js</span></a>
+				<ul class="menu-content">
+					<li>
+						<a class="menu-item" th:href="@{/html/vue/basic.html}">기본</a>
+					</li>
+					<li>
+						<a class="menu-item" th:href="@{/html/vue/select-image.html}">select-image</a>
+					</li>
+				</ul>
+			</li>
+
+			<li class="nav-item has-sub">
+				<a href="#"><i class="fa fa-server"></i><span class="menu-title">Javascript</span></a>
+				<ul class="menu-content">
+					<li>
+						<a class="menu-item" th:href="@{/html/js/dayjs.html}">day.js</a>
+					</li>
+				</ul>
+			</li>
+
+			<li class="nav-item has-sub">
+				<a href="#"><i class="icon-screen-desktop"></i><span class="menu-title">Thymeleaf</span></a>
+				<ul class="menu-content">
+					<li>
+						<a class="menu-item" th:href="@{/html/thymeleaf/file-types.html}">파일유형</a>
+					</li>
+					<li>
+						<a class="menu-item" th:href="@{/html/thymeleaf/basic.html}">기본 사용법</a>
+					</li>
+					<li>
+						<a class="menu-item" th:href="@{/svc/main/use-case.do}">Use case</a>
+					</li>
+					<li>
+						<a class="menu-item" th:href="@{/html/thymeleaf/functions.html}">함수</a>
+					</li>
+				</ul>
+			</li>
+
+		</ul>
+	</div>
+</th:block>
+</html>

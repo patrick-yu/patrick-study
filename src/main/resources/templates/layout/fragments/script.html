@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<!-- 공통으로 쓰이는 script 파일을넣는다.-->
+<th:block th:fragment="scriptFragment">
+	<link rel="shortcut icon" href="data:image/x-icon" type="image/x-icon">
+
+	<link rel="stylesheet" th:href="@{/static/component/css/prism.css}">
+	<script type="text/javascript" th:src="@{/static/component/js/prism.js}"></script>
+
+	<link rel="stylesheet" type="text/css" th:href="@{/static/bootstrap-5.2.0/css/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/static/component/css/switch.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/static/component/css/bootstrap-extended.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/static/component/css/template-colors.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/static/component/css/template.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/static/component/css/toastr.min.css}"> <!-- alert 대신 사용 -->
+	<link rel="stylesheet" type="text/css" th:href="@{/static/component/css/sweetalert2.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/static/jquery/jquery-ui.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/static/component/css/jqueryui.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/static/component/css/component.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/static/component/fonts/simple-line-icons/style.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/static/component/fonts/feather/style.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/static/component/fonts/font-awesome/css/font-awesome.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/static/component/css/jstree/themes/proton/style.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/static/component/css/tui-pagination.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/static/component/css/tui-grid.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/static/svc/css/init.css}">
+
+	<script type="text/javascript" th:src="@{/static/jquery/jquery.min.js}" ></script>
+	<script type="text/javascript" th:src="@{/static/bootstrap-5.2.0/js/bootstrap.min.js}" ></script>
+	<script type="text/javascript" th:src="@{/static/component/js/popper.min.js}"></script> <!-- tool tip -->
+	<script type="text/javascript" th:src="@{/static/jquery/jquery-ui.min.js}" ></script>
+	<script type="text/javascript" th:src="@{/static/component/js/jquery.blockUI.js}" ></script>
+	<script type="text/javascript" th:src="@{/static/component/js/jquery.numberformatter.js}"></script>
+	<script type="text/javascript" th:src="@{/static/component/js/sweetalert2.all.min.js}" ></script>
+	<script type="text/javascript" th:src="@{/static/component/js/mustache.js}" ></script>
+	<script type="text/javascript" th:src="@{/static/component/js/toastr.min.js}"></script>
+	<script type="text/javascript" th:src="@{/static/component/js/tui-pagination.js}"></script>
+	<script type="text/javascript" th:src="@{/static/component/js/tui-grid.js}"></script>
+	<script type="text/javascript" th:src="@{/static/component/js/tui.js}" ></script>
+	<!--
+	<script type="text/javascript" th:src="@{/static/component/js/vue-dev.js}" ></script> 운영시에는 vue.min.js 사용할 것 -->
+	<script src="https://unpkg.com/vue@3"></script>
+	<script type="text/javascript" th:src="@{/static/component/js/component-config.js}" ></script>
+	<script type="text/javascript" th:src="@{/static/component/js/component-old.js}" ></script>
+	<script type="text/javascript" th:src="@{/static/component/js/component.js}" ></script>
+	<script type="text/javascript" th:src="@{/static/component/js/dayjs.min.js}" ></script> <!-- 날짜 라이브러리 -->
+
+	<script>
+		var contextPath = "[[${contextPath}]]";
+		$(function(){
+			$.ajaxSetup({
+			    headers: {
+			    	"[[${_csrf.headerName}]]": "[[${_csrf.token}]]"
+			    }
+			});
+		});
+
+		function _logout() {
+			var $form = $("#-form-logout");
+			$form.submit();
+		}
+	</script>
+	<form id="-form-logout" th:action="@{/logout}" method="POST"></form>
+</th:block>
+</html>

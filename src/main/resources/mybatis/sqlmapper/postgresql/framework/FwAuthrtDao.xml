@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mframework.common.dao.FwAuthrtDao">
+
+	<select id="selectMbrAuthrtList" resultType="mframework.common.vo.FwAuthrt">
+		/** BnAuthorityDao.selectMbrAuthrtList */
+		select
+			mbr_id
+			,authrt_cd
+		from
+			cmpt_mbr_authrt
+		where
+			mbr_id = #{mbrId}
+	</select>
+
+	<select id="selectMngrAuthrtList" resultType="mframework.common.vo.FwAuthrt">
+		/** BnAuthorityDao.selectMngrAuthrtList */
+		select
+			mbr_id
+			,authrt_cd
+		from
+			cmpt_mngr_authrt
+		where
+			mbr_id = #{mbrId}
+	</select>
+
+	<select id="selectPrgrmAuthrtList" resultType="mframework.common.vo.FwPrgrmAuthrt">
+		/** BnAuthorityDao.selectPrgrmAuthrtList */
+		select
+			 a.http_method
+			,a.url_addr_ptrn
+			,b.authrt_cd
+		from
+			cmpt_prgrm a
+			join cmpt_prgrm_authrt b
+				on (a.prgrm_id = b.prgrm_id)
+		where
+			a.sys_cd = #{systemId}
+		order by
+			a.sort_sn
+	</select>
+
+</mapper>

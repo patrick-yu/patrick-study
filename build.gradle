@@ -1,0 +1,60 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.7'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'patrick'
+version = '1.0.0'
+sourceCompatibility = '1.8'
+ext.frameworkVersion = '1.0.0'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+	all {
+		exclude group: 'org.apache.logging.log4j', module: 'log4j-to-slf4j'
+		exclude group: 'ch.qos.logback', module: 'logback-classic'
+	}
+}
+
+repositories {
+	mavenCentral()
+    maven {
+        url "http://fw.thenet-global.com:8081/repository/maven-releases/"
+        allowInsecureProtocol true
+    }
+    maven {
+        url "https://maven.egovframe.go.kr/maven/"
+        allowInsecureProtocol true
+    }
+}
+
+dependencies {
+	// B:기본설정
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+	implementation 'org.springframework.boot:spring-boot-configuration-processor'
+
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	// E:기본설정
+
+	implementation group: 'youngmin', name: 'm-framework', version: frameworkVersion
+
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

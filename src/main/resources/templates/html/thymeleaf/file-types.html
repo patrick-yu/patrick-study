@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html layout:decorate="~{/layout/layout-login}">
+<head>
+<meta charset="UTF-8">
+<title>파일 유형</title>
+<script>
+$(function(){
+	// 이런 일이 ....
+});
+</script>
+</head>
+<body>
+
+<th:block layout:fragment="content">
+	<div class="card rounded-0 rounded-bottom">
+		<div class="card-body">
+			<h1>파일 유형</h1>
+			<p>사이트: <a href="https://www.thymeleaf.org/" target="_blank">www.thymeleaf.org</a> </p>
+		</div>
+	</div>
+
+	<div class="card card-body">
+		<div class="card-title">기본 폴더구성</div>
+		<pre class="line-numbers"><code class="language-text"><script type="bnet">
+layout				: Layout HTML 파일들이 위치
+	fragments		: Layout file에서 include하는 HTML 파일들이 위치
+svc
+	{업무}			: 실제 Controller에서 호출하는 화면 HTML 파일들이 위치
+		</script></code></pre>
+		<pre class="desc"><code class="language-text"><script type="bnet">
+기본 적으로, Controller에서 호출하는 HTML 파일에는
+	< html layout:decorate="~{/layout/layout-login}">
+와 같이, layout 파일로 무엇을 사용할 지를 정의해 놓는다.(/layout/layout-login.html)
+그 다음, layout 파일에서 th:replace, layout:fragment 등을 통해 파일들을 layout에
+배치하게 된다.
+		</script></code></pre>
+	</div>
+
+	<div class="card card-body">
+		<div class="card-title">Layout HTML</div>
+		<pre class="line-numbers"><code class="language-markup"><script type="bnet">
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	< th:block th:replace="/layout/fragments/script :: scriptFragment" />
+</head>
+<body>
+	< th:block th:replace="/layout/fragments/header :: headerFragment" />
+	<div id="sample-container" class="row" style="min-height: 500px;">
+		<div class="col-sm-auto p-0">
+			< th:block th:replace="/layout/fragments/menu :: menuFragment" />
+		</div>
+		<div class="col-sm-auto" style="width: calc(100% - 240px);">
+			< th:block layout:fragment="content" />
+		</div>
+	</div>
+	< th:block th:replace="/layout/fragments/footer :: footerFragment" />
+</body>
+</html>
+		</script></code></pre>
+		<pre class="desc"><code class="language-text"><script type="bnet">
+line 6: th:replace="/layout/fragments/script :: scriptFragment"
+	/layout/fragments/script.html 파일의 "scriptFragment" fragment로 이 영역을 replace한다.
+
+line 9: th:replace="/layout/fragments/header :: headerFragment"
+	/layout/fragments/header.html의 "headerFragment" fragment로 이 영역을 replace한다.
+
+line 12: th:replace="/layout/fragments/menu :: menuFragment"
+	/layout/fragments/menu.html의 "menuFragment" fragment로 이 영역을 replace한다.
+
+line 15: layout:fragment="content"
+	Content html의 'layout:fragment="content"'영역을 이 영역에 삽입한다.
+
+line 18: th:replace="/layout/fragments/footer :: footerFragment"
+	/layout/fragments/footer.html의 "footerFragment" fragment로 이 영역을 replace한다.
+		</script></code></pre>
+	</div>
+
+	<div class="card card-body">
+		<div class="card-title">Included HTMLs</div>
+		<pre class="line-numbers"><code class="language-markup"><script type="bnet">
+<!doctype html>
+<html>
+<body>
+	< th:block th:fragment="footerFragment">
+		<div class="footer">
+			ⓒ YoungMin Yoo.
+		</div>
+	</ th:block>
+</body>
+</html>
+
+		</script></code></pre>
+		<pre class="desc"><code class="language-text"><script type="bnet">
+line 5: th:block th:fragment="footerFragment"
+	"footerFragment" fragment 정의
+	이 영역을 layout HTML에서 'th:replace="html-file :: footerFragment"'로 사용할 수 있다.
+		</script></code></pre>
+	</div>
+
+	<div class="card card-body">
+		<div class="card-title">Content HTML</div>
+		<pre class="line-numbers"><code class="language-markup"><script type="bnet">
+<!DOCTYPE html>
+< html layout:decorate="~{/layout/layout-login}">
+<head>
+<title>Login</title>
+
+< script th:inline="javascript">
+	// javascript
+	var csrfToken = [ [${_csrf.token}] ]
+< /script>
+
+< /head>
+< body>
+	< th:block layout:fragment="content">
+		Content html
+	< /th:block>
+< /body>
+< /html>
+		</script></code></pre>
+		<pre class="desc"><code class="language-text"><script type="bnet">
+line 3: layout:decorate="~{/layout/layout-login}"
+	이 페이지는 layout HTML로 "/layout/layout-login.html"을 사용한다는 의미
+
+line 5: title
+	title은 layout의 title을 덮어 쓰게 된다.
+
+line 7: script th:inline="javascript"
+	'['2개와 ']'2개로 감싸고, 그 안에 ${...}를 넣으면, java로 부터 Model을 통해 넘겨 받은 데이터를 사용할 수 있는데,
+	해당 데이터가 문자열이면, ""표를 자동으로 붙여 분다.
+	script는 head 영역 안에 놓아야, layout의 head 영역안으로 자동 삽입된다.
+
+line 9: [ [${_csrf.token}] ]
+	위 예에서는 '[ ['로 표현되어 있는데, 실제로는 '[['와 같이, 사이의 공백 없이 사용해야 한다.
+
+line 14: layout:fragment="content"
+	layout HTML에서 'th:block layout:fragment="content"'로 이 영역을 layout에 넣을 수 있다.
+		</script></code></pre>
+	</div>
+</th:block>
+
+</body>
+</html>

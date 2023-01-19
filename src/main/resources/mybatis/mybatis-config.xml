@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="jdbcTypeForNull" value="NULL" />
+
+		<!-- PreparedStatement 재사용 -->
+        <setting name="defaultExecutorType" value="REUSE" />
+
+        <setting name="cacheEnabled" value="false" />
+
+        <!-- batch 처리 옵션 -->
+        <!--
+        <setting name="defaultExecutorType" value="BATCH" /> -->
+        <!-- PreparedStatement를 매번 재 생성함 -->
+        <!--
+        <setting name="defaultExecutorType" value="SIMPLE" /> -->
+
+        <setting name="defaultFetchSize" value="1000" />
+    </settings>
+</configuration>
