@@ -3,7 +3,7 @@ package patrick.study.common.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import bnet.library.util.CoreUtils;
+import mlibrary.util.CoreUtils;
 import lombok.Builder;
 import lombok.Data;
 

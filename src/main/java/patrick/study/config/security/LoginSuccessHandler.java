@@ -12,16 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
-import mframework.common.dao.BnMenuDao;
-import mframework.common.util.BnSessionUtils;
-import mframework.common.vo.SecMbr;
-import mframework.common.vo.BnMenu;
+import mframework.common.dao.FwMenuDao;
+import mframework.common.util.FwSessionUtils;
 import mframework.common.vo.CustomUserDetails;
+import mframework.common.vo.FwMenu;
+import mframework.common.vo.SecMbr;
 import mframework.config.EnvConfig;
 import mframework.log.LogUtils;
 import mframework.log.vo.LoginLog;
-import bnet.library.util.CoreUtils;
-import bnet.library.util.CoreUtils.string;
+import mlibrary.util.CoreUtils;
+import mlibrary.util.CoreUtils.string;
 
 // SecurityConfig.java에서 successHandler 설정
 public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
@@ -33,7 +33,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
     private EnvConfig envConfig;
 
     @Autowired
-    private BnMenuDao bnMenuDao;
+    private FwMenuDao bnMenuDao;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -44,8 +44,8 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
         writeLog(request, member);
 
         // 현재 사용자의 메뉴를 세션에 저장한다.
-        List<BnMenu> menuList = bnMenuDao.selectList_mbrId(envConfig.getSystemId(), member.getMbrId());
-        BnSessionUtils.userMenu.set(menuList);
+        List<FwMenu> menuList = bnMenuDao.selectList_mbrId(envConfig.getSystemId(), member.getMbrId());
+        FwSessionUtils.userMenu.set(menuList);
 
         //TODO (유영민)로그인 성공 후 처리할 작업
 //        userDetailsService.afterLoginSuccess(request, response, user);
@@ -84,7 +84,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
         log.setMberId(user.getMbrId());
         log.setLoginId(user.getLgnId());
         log.setMberNm(user.getMbrNm());
-        log.setMberType(user.getMberType());
+        log.setMberType(user.getMbrType());
 
         logUtils.saveLoginLog(log);
     }

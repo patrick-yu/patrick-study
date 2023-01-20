@@ -30,34 +30,34 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
-import mframework.interceptor.BnCoreInterceptor;
-import bnet.library.bind.converter.BigDecimalConverter;
-import bnet.library.bind.converter.BooleanConverter;
-import bnet.library.bind.converter.DateConverter;
-import bnet.library.bind.converter.DoubleConverter;
-import bnet.library.bind.converter.FloatConverter;
-import bnet.library.bind.converter.IntegerConverter;
-import bnet.library.bind.converter.LongConverter;
-import bnet.library.bind.converter.ShortConverter;
-import bnet.library.bind.deserializer.BigDecimalDeserializer;
-import bnet.library.bind.deserializer.BooleanDeserializer;
-import bnet.library.bind.deserializer.DateDeserializer;
-import bnet.library.bind.deserializer.DoubleDeserializer;
-import bnet.library.bind.deserializer.FloatDeserializer;
-import bnet.library.bind.deserializer.IntegerDeserializer;
-import bnet.library.bind.deserializer.LongDeserializer;
-import bnet.library.bind.deserializer.ShortDeserializer;
-import bnet.library.bind.resolver.BigDecimalArgumentResolver;
-import bnet.library.bind.resolver.BooleanArgumentResolver;
-import bnet.library.bind.resolver.DateArgumentResolver;
-import bnet.library.bind.resolver.DoubleArgumentResolver;
-import bnet.library.bind.resolver.FloatArgumentResolver;
-import bnet.library.bind.resolver.IntegerArgumentResolver;
-import bnet.library.bind.resolver.LongArgumentResolver;
-import bnet.library.bind.resolver.ShortArgumentResolver;
-import bnet.library.view.ExcelView;
-import bnet.library.view.ReportExcelView;
 import kong.unirest.Unirest;
+import mframework.interceptor.FwCoreInterceptor;
+import mlibrary.bind.converter.BigDecimalConverter;
+import mlibrary.bind.converter.BooleanConverter;
+import mlibrary.bind.converter.DateConverter;
+import mlibrary.bind.converter.DoubleConverter;
+import mlibrary.bind.converter.FloatConverter;
+import mlibrary.bind.converter.IntegerConverter;
+import mlibrary.bind.converter.LongConverter;
+import mlibrary.bind.converter.ShortConverter;
+import mlibrary.bind.deserializer.BigDecimalDeserializer;
+import mlibrary.bind.deserializer.BooleanDeserializer;
+import mlibrary.bind.deserializer.DateDeserializer;
+import mlibrary.bind.deserializer.DoubleDeserializer;
+import mlibrary.bind.deserializer.FloatDeserializer;
+import mlibrary.bind.deserializer.IntegerDeserializer;
+import mlibrary.bind.deserializer.LongDeserializer;
+import mlibrary.bind.deserializer.ShortDeserializer;
+import mlibrary.bind.resolver.BigDecimalArgumentResolver;
+import mlibrary.bind.resolver.BooleanArgumentResolver;
+import mlibrary.bind.resolver.DateArgumentResolver;
+import mlibrary.bind.resolver.DoubleArgumentResolver;
+import mlibrary.bind.resolver.FloatArgumentResolver;
+import mlibrary.bind.resolver.IntegerArgumentResolver;
+import mlibrary.bind.resolver.LongArgumentResolver;
+import mlibrary.bind.resolver.ShortArgumentResolver;
+import mlibrary.view.ExcelView;
+import mlibrary.view.ReportExcelView;
 
 @Configuration
 //@EnableWebMvc
@@ -66,7 +66,7 @@ import kong.unirest.Unirest;
 public class BasicConfig implements SchedulingConfigurer, WebMvcConfigurer {
 
 	@Autowired
-	protected BnCoreInterceptor interceptor;
+	protected FwCoreInterceptor interceptor;
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {

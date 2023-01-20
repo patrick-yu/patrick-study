@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import mframework.common.vo.SecMbr;
-import bnet.library.util.CoreUtils.string;
+import mlibrary.util.CoreUtils.string;
 import patrick.study.svc.main.vo.Code;
 
 @Controller

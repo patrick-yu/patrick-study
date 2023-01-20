@@ -7,7 +7,7 @@ plugins {
 group = 'patrick'
 version = '1.0.0'
 sourceCompatibility = '1.8'
-ext.frameworkVersion = '1.0.0'
+ext.frameworkVersion = '1.2.3'
 
 configurations {
 	compileOnly {

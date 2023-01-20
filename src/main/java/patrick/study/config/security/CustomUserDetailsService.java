@@ -12,10 +12,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import mframework.common.dao.FwAuthrtDao;
-import mframework.common.dao.BnLoginDao;
-import mframework.common.vo.SecMbr;
+import mframework.common.dao.FwLoginDao;
 import mframework.common.vo.CustomUserDetails;
 import mframework.common.vo.FwAuthrt;
+import mframework.common.vo.SecMbr;
 
 /**
  * 로그인할 때, Spring security가 사용한다.
@@ -29,7 +29,7 @@ import mframework.common.vo.FwAuthrt;
 public class CustomUserDetailsService implements UserDetailsService {
 
 	@Autowired
-    private BnLoginDao loginDao;
+    private FwLoginDao loginDao;
 
 	@Autowired
     private FwAuthrtDao authorityDao;
